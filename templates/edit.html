@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Recipe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>✏️ Edit Recipe</h1>
+    <form method="post">
+        <label>Recipe Title</label>
+        <input type="text" name="title" value="{{ recipe['title'] }}" required>
+        
+        <label>Ingredients</label>
+        <textarea name="ingredients" rows="5" required>{{ recipe['ingredients'] }}</textarea>
+        
+        <label>Instructions</label>
+        <textarea name="instructions" rows="5" required>{{ recipe['instructions'] }}</textarea>
+        
+        <label>Image URL</label>
+        <input type="text" name="image_url" value="{{ recipe['image_url'] }}">
+        
+        <button type="submit">Update Recipe</button>
+    </form>
+    <br>
+    <a href="{{ url_for('index') }}" style="display: block; text-align: center;">Cancel</a>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; }
+        .pending { background: #ffeaa7; color: #d63031; }
+        .approved { background: #55efc4; color: #00b894; }
+        .rejected { background: #ff7675; color: white; }
+    </style>
+</head>
+<body>
+
+<div style="padding: 20px; background: #2c3e50; color: white; display: flex; justify-content: space-between;">
+    <h2>🍳 My Cooking Dashboard</h2>
+    <div>
+        <a href="{{ url_for('index') }}" style="color: white; margin-right: 15px;">Home</a>
+        <a href="{{ url_for('logout') }}" style="color: #ff7675;">Logout</a>
+    </div>
+</div>
+
+<div class="recipe-container" style="padding: 40px;">
+    <h1>Welcome, {{ session['user'] }}!</h1>
+    <p>Here are the recipes you have shared with the community:</p>
+    
+    <a href="{{ url_for('create') }}" style="background: #e67e22; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-bottom: 30px;">+ Post New Recipe</a>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+        {% for recipe in recipes %}
+        <div class="recipe-card" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px; background: white;">
+            <img src="{{ recipe['image_url'] }}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 5px;">
+            <h3>{{ recipe['title'] }}</h3>
+            
+            <p>Status: 
+                <span class="status-badge {{ recipe['status'] }}">
+                    {{ recipe['status'] | upper }}
+                </span>
+            </p>
+
+            <div style="margin-top: 10px;">
+                <a href="{{ url_for('edit', id=recipe['id']) }}" style="color: #f39c12; margin-right: 10px;">Edit</a>
+                <a href="{{ url_for('recipe_detail', id=recipe['id']) }}" style="color: #3498db;">View</a>
+            </div>
+        </div>
+        {% else %}
+        <p>You haven't posted any recipes yet. Start sharing today!</p>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
